@@ -9,7 +9,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/cardscore" />
             <option value="$PROJECT_DIR$/ooredoo-radio" />
+            <option value="$PROJECT_DIR$/outsource" />
             <option value="$PROJECT_DIR$/smsverifycatcher" />
             <option value="$PROJECT_DIR$/switchbutton" />
           </set>

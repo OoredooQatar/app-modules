@@ -1,1 +1,1 @@
-include ':app', ':ooredoo-radio', ':smsverifycatcher', ':switchbutton', ':cardscore', ':outsource'
+include ':app', ':ooredoo-radio', ':smsverifycatcher', ':switchbutton', ':cardscore', ':outsource', ':selfcare'

@@ -2,8 +2,6 @@ package qa.ooredoo.selfcare.sdk;
 
 import android.util.Log;
 
-import qa.ooredoo.android.Utils.Constants;
-import qa.ooredoo.android.Utils.Localization;
 
 /**
  * User: Emre
@@ -37,11 +35,10 @@ public class SessionFactory {
         return transporter.dispatch(ar);
     }
 
-    public ApiSession newSession() {
+    public ApiSession newSession(String language) {
         String[] parameters = new String[]{apiKey};
 
-        ApiRequest ar = new ApiRequest("Initialize", parameters, null,
-                Localization.isArabic() ? Constants.ARABIC_LANGUAGE : Constants.ENGLISH_LANGUAGE);
+        ApiRequest ar = new ApiRequest("Initialize", parameters, null, language);
 
         Log.e(TAG, "sendRequest: " + ar.toString());
 

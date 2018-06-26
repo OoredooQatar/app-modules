@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.conn.ConnectTimeoutException;
 
 import java.io.BufferedReader;
@@ -24,7 +23,7 @@ import java.net.URL;
 public class HttpTransporter implements Transporter {
     //  public static String BASE_URL = "http://dev.m.ooredoo.qa/sit/";
     //  public static String BASE_URL = "http://dev.m.ooredoo.qa/uat/";
-    public static String BASE_URL = BuildConfig.SERVER_URL;//"https://mobile.ooredoo.qa/faxess/";
+   // public static String BASE_URL = BuildConfig.SERVER_URL;//"https://mobile.ooredoo.qa/faxess/";
     //public static String BASE_URL = "http://dev.m.ooredoo.qa/uat-amali/";
 //    public static String BASE_URL = "http://dev.m.ooredoo.qa/api/";
 //    public static String BASE_URL = "https://m.ooredoo.qa/maxess/";
@@ -53,14 +52,15 @@ public class HttpTransporter implements Transporter {
     private String versionName;
     private String INIT_API;
     private String TIMEOUT;
-    private Context context;
+    private String baseUrl;
+    private String androidVersionName;
 
 
-    public HttpTransporter(Context context, String versionName, String INIT_API, String TIMEOUT) {
-        this.context = context;
+    public HttpTransporter(String baseUsrl, String versionName, String INIT_API, String TIMEOUT) {
         this.INIT_API = INIT_API;
         this.versionName = versionName;
         this.TIMEOUT = TIMEOUT;
+        this.baseUrl = baseUsrl;
     }
 
     private static final String TAG = "HttpTransporter";
@@ -98,7 +98,7 @@ public class HttpTransporter implements Transporter {
             if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.FROYO) {
                 System.setProperty("http.keepAlive", "false");
             }
-            URL url = new URL(BASE_URL);
+            URL url = new URL(baseUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setConnectTimeout(60000);
@@ -121,7 +121,7 @@ public class HttpTransporter implements Transporter {
             // "Sony"
             String model = Build.MODEL; // e.g. model := "C6602"
 
-            String USER_AGENT = "OoredooSelfCare/" + qa.ooredoo.android.Application.versionName
+            String USER_AGENT = "OoredooSelfCare/" + versionName
                     + "(Linux; Android " + myVersion + ";" + manufacturer + " "
                     + model + ")";
 
@@ -206,25 +206,17 @@ public class HttpTransporter implements Transporter {
             e.printStackTrace();
             // System.println("UnsupportedEncodingException >>>>>>> "
             // + e.getMessage());
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-            // System.println("Client Protocol Exception >>>>>>> "
-            // + e.getMessage());
-        } catch (ConnectTimeoutException e) {
+        }  catch (ConnectTimeoutException e) {
             e.printStackTrace();
             //Log.e("CONN TIMEOUT EXCEPTION", e.getMessage() != null ? e.getMessage() : "error");
-            Intent i = new Intent(qa.ooredoo.android.Application.TIMEOUT);
-            qa.ooredoo.android.Application.application.sendBroadcast(i);
+
         } catch (SocketException e) {
             e.printStackTrace();
-            //Log.e("SOCKET EXCEPTION", e.getMessage() != null ? e.getMessage() : "error");
-            Intent i = new Intent(qa.ooredoo.android.Application.TIMEOUT);
-            qa.ooredoo.android.Application.application.sendBroadcast(i);
+
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
             //Log.e("TIMEOUT EXCEPTION", e.getMessage() != null ? e.getMessage() : "error");
-            Intent i = new Intent(qa.ooredoo.android.Application.TIMEOUT);
-            qa.ooredoo.android.Application.application.sendBroadcast(i);
+
         } catch (IOException e) {
             e.printStackTrace();
             // System.println("IOException >>>>>>> " + e.getMessage());

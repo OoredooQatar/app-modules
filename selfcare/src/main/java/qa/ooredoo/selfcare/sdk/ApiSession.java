@@ -672,10 +672,35 @@ public class ApiSession implements Serializable {
         return InitiateForgetPasswordResponse.fromJSON(response);
     }
 
-    public PaymentInitiationResponse eshopPayment(String accountNumber, String amount, String returnUrl, String expireUrl, String description, String source, String email, String idNumber, String firstName, String lastName, String primaryNumber) {
-        String response = sendRequest("EshopPayment", new String[]{accountNumber, amount, returnUrl, expireUrl, description, source, email, idNumber, firstName, lastName, primaryNumber});
-        return PaymentInitiationResponse.fromJSON(response);
+    public EshopPaymentInitiationResponse eshopPayment(String returnUrl, String expireUrl, String deliveryAddress, String isHomeDelivery, String isGuest, String firstName, String lastName, String emailAddress, String phnNum, String idType, String customerID){
+        String response = sendRequest("EshopPayment",new String []{returnUrl, expireUrl, deliveryAddress, isHomeDelivery, isGuest, firstName, lastName, emailAddress, phnNum, idType, customerID});
+        return EshopPaymentInitiationResponse.fromJSON(response);
     }
+    /*public EshopPaymentInitiationResponse eshopPayment(String method, String returnUrl, String expireUrl, String deliveryAddress, String isHomeDelivery, String isGuest, String title, String firstName, String lastName, String emailAddress, String phnNum, String idType, String customerID, String pobox){
+        String response = sendRequest("EshopPayment",new String []{method, returnUrl, expireUrl, deliveryAddress, isHomeDelivery, isGuest, title, firstName, lastName, emailAddress, phnNum, idType, customerID, pobox});
+        return EshopPaymentInitiationResponse.fromJSON(response);
+    }*/
+
+    public PaymentFinalizationResponse finazlieEshopPayment(String dataCashReference, String transactionId){
+        String response = sendRequest("FinazlieEshopPayment",new String []{dataCashReference, transactionId});
+        return PaymentFinalizationResponse.fromJSON(response);
+    }
+
+    public EshopResponse manageBasket(String action, String basketId, String productId, String quantity, String isGuest){
+        String response = sendRequest("ManageBasket",new String []{action, basketId, productId, quantity, isGuest});
+        return EshopResponse.fromJSON(response);
+    }
+
+    public EshopResponse retrieveProducts(){
+        String response = sendRequest("RetrieveProducts",new String []{});
+        return EshopResponse.fromJSON(response);
+    }
+
+    public EshopResponse deliveryDetails(String deliveryMethod, String storeId, String buildingNumber, String zone, String street, String details){
+        String response = sendRequest("DeliveryDetails",new String []{deliveryMethod, storeId, buildingNumber, zone, street, details});
+        return EshopResponse.fromJSON(response);
+    }
+
 
     public AcceptOfferResponse cancelOffer(String serviceNumber, String type, String refillID, String offerId) {
         String response = sendRequest("CancelOffer", new String[]{serviceNumber, type, refillID, offerId});
